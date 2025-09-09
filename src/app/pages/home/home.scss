@@ -1,0 +1,12 @@
+  .page{
+    display: grid;
+    place-items: center;               /* centra horizontal y vertical */
+    padding:16px;
+  }
+  .card{
+    background:#2b2b2b;color:#fff;padding:16px;border-radius:10px;
+    width:min(480px, 92vw);            /* ancho cómodo y responsivo */
+    margin-inline:auto;                /* centra horizontal */
+    text-align:center;                 /* contenido centrado */
+  }
+  .btn{background:#6c63ff;color:#fff;padding:6px 10px;border-radius:6px;text-decoration:none}

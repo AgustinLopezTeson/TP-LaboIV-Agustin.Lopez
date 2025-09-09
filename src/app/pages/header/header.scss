@@ -1,0 +1,39 @@
+.topbar {
+        position: sticky;
+        top: 0;
+        display: flex;
+        gap: 16px;
+        align-items: center;
+        padding: 10px 16px;
+        background: #222;
+        color: #fff;
+        height:56px;
+      }
+      .brand {
+        font-weight: 700;
+        color: #fff;
+        text-decoration: none;
+      }
+      .nav {
+        margin-left: auto;
+        display: flex;
+        gap: 12px;
+        align-items: center;
+      }
+      .btn {
+        background: #444;
+        border: 0;
+        color: #fff;
+        padding: 6px 10px;
+        border-radius: 6px;
+        text-decoration: none;
+        cursor: pointer;
+      }
+
+      .btn-entrar{ background:#16a34a; }
+      .btn-salir { background:#dc2626;}
+      a {
+        color: #eee;
+        text-decoration: none;
+      }
+    

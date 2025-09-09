@@ -1,0 +1,15 @@
+<section class="page">
+  <h1>Bienvenido a la Sala de Juegos</h1>
+
+  @if (auth.user$ | async; as u) {
+  <div class="card">
+    <h3>Hola, {{ u.display_name || u.email }}</h3>
+    <p>Próximamente verás los juegos acá.</p>
+  </div>
+  } @else {
+  <div class="card">
+    <h3>No estás logueado</h3>
+    <p><a class="btn" routerLink="/login">Ir a Login</a></p>
+  </div>
+  }
+</section>

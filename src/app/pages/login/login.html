@@ -1,0 +1,18 @@
+<section class="page">
+  <h2>Ingreso</h2>
+  <form (submit)="onSubmit(email.value, password.value); $event.preventDefault()" class="card">
+    <label>Correo</label>
+    <input #email type="email" required placeholder="tu@mail.com" />
+
+    <label>Contraseña</label>
+    <input #password type="password" required placeholder="••••••" />
+
+    <button class="btn" type="submit">Ingresar</button>
+    <button class="btn btn-ghost" type="button" (click)="cargaRapida(email, password)">
+      Carga Rápida
+    </button>
+    @if(errorMsg) {
+    <p class="err">{{ 'Credenciales Invalidas' }}</p>
+    }
+  </form>
+</section>
