@@ -15,4 +15,13 @@
     <p class="err">{{ 'Credenciales Invalidas' }}</p>
     }
   </form>
+
+  @if (loading) {
+  <div class="overlay">
+    <div>
+      <div class="spinner"></div>
+      <div class="spinner-text">Cargando…</div>
+    </div>
+  </div>
+  }
 </section>

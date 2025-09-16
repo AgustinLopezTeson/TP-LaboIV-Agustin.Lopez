@@ -1,17 +1,58 @@
-<section class="page">
-  <div class="card">
-    <h2>Quién Soy</h2>
-    <img
-      src="https://i.pinimg.com/originals/e4/7d/46/e47d46d47cfad9bdc8d7418a60ed97db.png"
-      alt="Alumno"
-      class="avatar"
-    />
-    <p><strong>Nombre:</strong> Agustin Lopez Teson</p>
-    <p><strong>Mail:</strong> agustinlopezteson@gmail.com</p>
-    <p>
-      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nemo dolor ut vitae impedit numquam
-      sint cum. Adipisci blanditiis aperiam, libero mollitia maiores, perspiciatis aut error veniam,
-      omnis qui alias ipsam.
-    </p>
-  </div>
+<section class="qs-page">
+  <h2 class="qs-title">Quién Soy</h2>
+  <article class="qs-card">
+    <header class="qs-header">
+      <img
+        class="qs-avatar"
+        src="https://i.pinimg.com/originals/e4/7d/46/e47d46d47cfad9bdc8d7418a60ed97db.png"
+        alt="Foto de Agustín López Tesón"
+      />
+      <div>
+        <p class="qs-muted"><strong> Alumno: </strong>Agustín López Tesón</p>
+        <p class="qs-muted"><strong>Correo:</strong> Agustinlopezteson@gmail.com</p>
+        <p class="qs-muted"><strong>Materia: </strong> Laboratorio IV</p>
+      </div>
+    </header>
+
+    <section class="qs-about">
+      <p>
+        Esta app “Sala de Juegos” está construida con Angular, autenticación y storage con Supabase
+        y deploy en Firebase Hosting.
+      </p>
+    </section>
+
+    <section class="qs-games">
+      <div class="qs-game">
+        <h4>Ahorcado</h4>
+        <ul>
+          <li>Ingreso de letras solo con botones (sin teclado).</li>
+          <li>Palabra oculta, aciertos/errores y estado de la partida.</li>
+          <li>Fin de juego al adivinar o al agotar intentos.</li>
+        </ul>
+      </div>
+
+      <div class="qs-game">
+        <h4>Mayor o Menor</h4>
+        <ul>
+          <li>Mazo de cartas; se predice si la siguiente es <em>mayor</em> o <em>menor</em>.</li>
+          <li>+1 punto por cada acierto consecutivo (racha).</li>
+          <li>Sin repetir cartas hasta reiniciar.</li>
+        </ul>
+      </div>
+
+      <div class="qs-game">
+        <h4>Preguntados</h4>
+        <ul>
+          <li>Imágenes obtenidas desde una API por medio de un Service.</li>
+          <li>Opción múltiple (sin ingreso por teclado).</li>
+          <li>Posible temporizador por pregunta.</li>
+        </ul>
+      </div>
+
+      <div class="qs-game">
+        <h4>Juego Propio</h4>
+        <p>(En construcción) Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+      </div>
+    </section>
+  </article>
 </section>

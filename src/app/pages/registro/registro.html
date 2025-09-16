@@ -1,0 +1,46 @@
+<section class="page">
+  <h2>Registro</h2>
+  <form
+    class="card"
+    (submit)="onSubmit(name.value, email.value, password.value, age.valueAsNumber, file.files?.[0] || null); $event.preventDefault();"
+  >
+    @if (msg) {
+    <div
+      class="auth-msg"
+      [class.auth-msg--ok]="msgType === 'ok'"
+      [class.auth-msg--error]="msgType === 'error'"
+    >
+      {{ msg }}
+    </div>
+    }
+    <label>Nombre</label>
+    <input #name type="text" required placeholder="Tu nombre" />
+
+    <label>Email</label>
+    <input #email type="email" required placeholder="tu@mail.com" />
+
+    <label>Contraseña</label>
+    <input #password type="password" required minlength="6" placeholder="••••••" />
+
+    <label>Edad</label>
+    <input #age type="number" min="18" max="99" required placeholder="18–99" />
+
+    <label>Foto</label>
+    <input #file type="file" accept="image/*" required />
+
+    <button class="btn btn-entrar" type="submit">Crear cuenta</button>
+
+    <p style="margin-top: 8px">
+      ¿Ya tenés cuenta?
+      <a class="link" routerLink="/login">Iniciar sesión</a>
+    </p>
+  </form>
+  @if (loading) {
+  <div class="overlay">
+    <div>
+      <div class="spinner"></div>
+      <div class="spinner-text">Creando cuenta…</div>
+    </div>
+  </div>
+  }
+</section>

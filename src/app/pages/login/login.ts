@@ -11,16 +11,20 @@ import { AuthService } from '../../core/auth.service';
   styleUrl: './login.scss',
 })
 export class LoginComponent {
+  loading = false;
   errorMsg = '';
   constructor(private auth: AuthService, private router: Router) {}
 
   async onSubmit(email: string, password: string) {
     this.errorMsg = '';
+    this.loading = true;
     try {
       await this.auth.signIn(email, password);
       this.router.navigateByUrl('/home');
     } catch (e: any) {
-      this.errorMsg = e?.message || 'Error de autenticación';
+      this.errorMsg = e?.message;
+    } finally {
+      this.loading = false;
     }
   }
 
