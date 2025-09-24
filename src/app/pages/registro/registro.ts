@@ -27,7 +27,6 @@ export class RegistroComponent {
     this.msg = '';
     this.msgType = '';
 
-    // Validaciones rápidas (front)
     displayName = (displayName || '').trim();
     email = (email || '').trim();
 
@@ -37,6 +36,7 @@ export class RegistroComponent {
     }
     if (!/\S+@\S+\.\S+/.test(email)) {
       this.setMsg('Email inválido.', 'error');
+      this.loading = false;
       return;
     }
     if (!password || password.length < 6) {
@@ -58,6 +58,7 @@ export class RegistroComponent {
 
     try {
       const user = await this.auth.signUp(email, password, displayName, age);
+
       if (!user) {
         this.setMsg('No se pudo crear el usuario.', 'error');
         return;

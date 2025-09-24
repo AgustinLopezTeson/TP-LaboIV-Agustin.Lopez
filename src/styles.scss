@@ -22,9 +22,6 @@ body {
 
 .btn:active{ transform: translateY(1px);}
 
-a:hover{
-  text-decoration: underline;
-}
 
 /* Overlay de carga (reutilizable) */
 .overlay {
@@ -35,7 +32,6 @@ a:hover{
   place-items: center;
   z-index: 9999; 
 }
-
 /* Spinner básico */
 .spinner {
   width: 56px;
@@ -46,3 +42,36 @@ a:hover{
   animation: spin .8s linear infinite;
 }
 @keyframes spin { to { transform: rotate(360deg); } }
+
+/* === Fondo gamer global (oscuro, violeta/azul) === */
+:root{
+  --bg-img: url('assets/bg-gamer.png');
+  --bg-tint: rgba(18,16,31,0.72); /* velo oscuro */
+  --bg-grad-1: radial-gradient(900px 600px at 80% -10%, rgba(108,99,255,0.28), transparent 60%);
+  --bg-grad-2: radial-gradient(900px 600px at 8% 110%, rgba(0,168,255,0.18), transparent 60%);
+}
+
+/* Capa imagen detrás de todo */
+body::before{
+  content:"";
+  position: fixed; inset: 0; z-index: -2;
+  background-image: var(--bg-img);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  filter: saturate(.9) brightness(.62);
+}
+
+/* En desktop podés fijar el fondo (parallax suave) */
+@media (min-width: 900px){
+  body::before{ background-attachment: fixed; }
+}
+
+.card, .home-card, .qs-card{
+  background: rgba(34,34,34,0.92);
+  border: 1px solid #333;
+  border-radius: 12px;
+  box-shadow: 0 8px 28px rgba(0,0,0,.25);
+  backdrop-filter: blur(2px);
+  
+}

@@ -1,0 +1,22 @@
+<section class="chat-box">
+  <header class="chat-head">
+    <h3>💬 Sala de Chat</h3>
+  </header>
+
+  <section class="chat-body" [style.height.px]="height" #list>
+    @for (m of svc.msgs$ | async; track m.id) {
+    <div class="msg">
+      <div class="meta">
+        <b>{{ m.display_name || m.email || 'Usuario' }}</b>
+        <span>• {{ m.created_at | date : 'short' }}</span>
+      </div>
+      <div class="text">{{ m.text }}</div>
+    </div>
+    }
+  </section>
+
+  <footer class="chat-input">
+    <input #inp type="text" placeholder="Escribí un mensaje…" (keydown.enter)="envio(inp)" />
+    <button class="btn" (click)="envio(inp)">Enviar</button>
+  </footer>
+</section>

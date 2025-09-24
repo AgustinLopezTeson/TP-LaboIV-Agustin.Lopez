@@ -1,11 +1,11 @@
 <header class="topbar">
-  <a class="brand" routerLink="/">🎮 Sala de Juegos</a>
+  <a class="brand">🎮 Sala de Juegos</a>
   <nav class="nav">
     <a routerLink="/home">Home</a>
     <a routerLink="/quien-soy">Quién Soy</a>
 
     @if (auth.user$ | async; as u) {
-    <button class="btn btn-salir" (click)="auth.signOut()">
+    <button class="btn btn-salir" (click)="auth.signOut()" routerLink="/home">
       Salir ({{ u.display_name || u.email }})
     </button>
     } @else {

@@ -1,0 +1,26 @@
+<section class="page mayor-menor">
+  <article class="card">
+    <h2>Mayor o Menor</h2>
+
+    <div class="board">
+      <div class="cardbox">
+        <div class="cardface">{{ current?.label ?? '—' }}</div>
+      </div>
+
+      <div class="controls" *ngIf="!ended; else fin">
+        <button class="btn-mayor btn" (click)="play('mayor')">Mayor</button>
+        <button class="btn-menor btn" (click)="play('menor')">Menor</button>
+      </div>
+
+      <ng-template #fin>
+        <div class="result">
+          Fin del juego — Puntaje: <b>{{ score }}</b>
+          <button class="btn" (click)="reset()">Reiniciar</button>
+        </div>
+      </ng-template>
+    </div>
+
+    <p>Racha: {{ score }}</p>
+    <p>Cartas restantes: {{ deck.length }}</p>
+  </article>
+</section>
