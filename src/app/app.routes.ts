@@ -29,6 +29,7 @@ export const routes: Routes = [
         const router = inject(Router);
         if (auth.current) return true; // deja pasar
         router.navigateByUrl('/login'); // redirige al login
+        auth.signOut();
         return false;
       },
     ],

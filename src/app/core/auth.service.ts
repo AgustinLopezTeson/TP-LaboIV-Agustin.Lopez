@@ -22,7 +22,7 @@ export class AuthService {
   }
 
   get current() {
-    return this['_user$'].value;
+    return this._user$.value;
   }
   private traerInfo(u: User | null) {
     if (!u) {
