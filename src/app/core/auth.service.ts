@@ -21,6 +21,9 @@ export class AuthService {
     supabase.auth.onAuthStateChange((_e, session) => this.traerInfo(session?.user ?? null));
   }
 
+  get current() {
+    return this['_user$'].value;
+  }
   private traerInfo(u: User | null) {
     if (!u) {
       this._user$.next(null);

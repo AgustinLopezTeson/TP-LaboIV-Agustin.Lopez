@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { PalabrasService } from '../ahorcado/palabras.service';
+import { PalabrasService } from './palabras.service';
 
 @Component({
   selector: 'app-ahorcado',
@@ -8,61 +8,108 @@ import { PalabrasService } from '../ahorcado/palabras.service';
   styleUrls: ['./ahorcado.component.scss'],
 })
 export class AhorcadoComponent {
-  pool = [
-    'ANGULAR',
-    'TECLADO',
-    'JUEGO',
-    'FIREBASE',
-    'SUPABASE',
-    'SERVICIO',
-    'CASA',
-    'LIMPIADOR',
-    'MONITOR',
-  ];
+  // Letras (incluye Ñ)
   letters = 'ABCDEFGHIJKLMNÑOPQRSTUVWXYZ'.split('');
+
+  score = 0; // puntaje total
+  error = 0; // errores de la ronda
+  erroresMaximos = 6; // vidas
+  final = false; // terminó la ronda
+  ganar = false; // gana la ronda
+
+  // Palabras / ronda
+  queue: string[] = [];
   word = '';
   picked = new Set<string>();
-  error = 0;
-  erroresMaximos = 6;
-  final = false;
-  ganar = false;
 
   constructor(private palabras: PalabrasService) {
     this.reset();
   }
 
-  get palabraSecreta() {
+  get maskedWord(): string {
     return this.word
       .split('')
       .map((c) => (this.picked.has(c) ? c : '_'))
       .join(' ');
   }
+  get palabraSecreta(): string {
+    return this.maskedWord;
+  }
 
-  reset() {
+  /*Reinicia el juego cmopleto*/
+  reset(): void {
+    this.score = 0;
+    this.error = 0;
+    this.final = false;
+    this.ganar = false;
+    this.picked.clear();
+
+    this.cargarLote(() => this.siguientePalabra());
+  }
+
+  /*Pasa a la siguiente palabra */
+  siguientePalabra(): void {
+    this.error = 0;
+    this.final = false;
+    this.ganar = false;
+    this.picked.clear();
+
+    if (!this.queue.length) {
+      this.cargarLote(() => this.siguientePalabra());
+      return;
+    }
+
+    const idx = Math.floor(Math.random() * this.queue.length);
+    this.word = (this.queue.splice(idx, 1)[0] || '').toUpperCase();
+
+    this.logSolution('siguientePalabra');
+  }
+
+  private logSolution(context: string) {
+    console.log(`[${context}]`, this.word);
+  }
+
+  private cargarLote(cb?: () => void): void {
     this.palabras.traer({ cantidad: 20, min: 3, max: 9 }).subscribe((lista) => {
-      const fuente = lista.length ? lista : this.pool.filter((w) => w.length <= 9); // fallback local
-      console.log('Palabras fuente:', fuente);
-      const pick = fuente[Math.floor(Math.random() * fuente.length)];
-      this.word = pick;
-      this.picked.clear();
-      this.error = 0;
-      this.final = false;
-      this.ganar = false;
+      const fallback = [
+        'ANGULAR',
+        'TECLADO',
+        'JUEGO',
+        'FIREBASE',
+        'SUPABASE',
+        'SERVICIO',
+        'CASA',
+        'LIMPIADOR',
+        'MONITOR',
+      ];
+      const fuente = (lista?.length ? lista : fallback).map((w) => (w || '').toUpperCase());
+      this.queue.push(...fuente);
+      cb?.();
     });
   }
 
-  guess(l: string) {
+  /** Procesa una letra elegida */
+  guess(l: string): void {
     if (this.final || this.picked.has(l)) return;
+
     this.picked.add(l);
-    if (!this.word.includes(l)) this.error++;
-    const all = this.word.split('').every((c) => this.picked.has(c));
-    if (all) {
-      this.final = true;
-      this.ganar = true;
+    if (this.word.includes(l)) {
+      const completa = this.word.split('').every((c) => this.picked.has(c));
+      if (completa) {
+        this.score += 1;
+        this.ganar = true;
+        this.final = true;
+      }
+    } else {
+      this.error += 1;
+      if (this.error >= this.erroresMaximos) {
+        this.ganar = false;
+        this.final = true; // Game Over
+      }
     }
-    if (this.error >= this.erroresMaximos) {
-      this.final = true;
-      this.ganar = false;
-    }
+  }
+
+  get gameOver() {
+    return this.final && !this.ganar;
   }
 }

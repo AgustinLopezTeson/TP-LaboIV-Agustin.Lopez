@@ -2,31 +2,31 @@
   <article class="card">
     <h2>Ahorcado</h2>
 
-    <!-- Dibujo -->
+    <!-- STATS -->
+    <div class="stats">
+      <span
+        >Puntaje: <b>{{ score }}</b></span
+      >
+      <span
+        >Vidas: <b>{{ erroresMaximos - error }}</b
+        >/{{ erroresMaximos }}</span
+      >
+    </div>
+
+    <!-- Dibujo + palabra -->
     <div class="hang-wrap">
       <svg class="hang" viewBox="0 0 200 220" role="img" aria-label="Ahorcado">
-        <!-- Estructura (siempre visible) -->
+        <!-- Estructura fija -->
         <line x1="10" y1="210" x2="190" y2="210" class="gallows" />
-        <!-- Piso -->
         <line x1="40" y1="210" x2="40" y2="20" class="gallows" />
-        <!-- PALO -->
         <line x1="40" y1="20" x2="130" y2="20" class="gallows" />
-        <!-- PALO DE ARRIBA -->
         <line x1="130" y1="20" x2="130" y2="45" class="gallows" />
-        <!-- soga -->
-
-        <!-- Partes del cuerpo (se van mostrando con error) -->
-        <!-- 1) Cabeza -->
+        <!-- Partes del cuerpo por errores -->
         <circle *ngIf="error >= 1" cx="130" cy="62" r="17" class="man" />
-        <!-- 2) TORSO -->
         <line *ngIf="error >= 2" x1="130" y1="79" x2="130" y2="125" class="man" />
-        <!-- 3) Brazo izquierdo -->
         <line *ngIf="error >= 3" x1="130" y1="90" x2="110" y2="110" class="man" />
-        <!-- 4) Brazo derecho -->
         <line *ngIf="error >= 4" x1="130" y1="90" x2="150" y2="110" class="man" />
-        <!-- 5) Pierna izquierda -->
         <line *ngIf="error >= 5" x1="130" y1="125" x2="112" y2="155" class="man" />
-        <!-- 6) Pierna derecha -->
         <line *ngIf="error >= 6" x1="130" y1="125" x2="148" y2="155" class="man" />
       </svg>
 
@@ -36,16 +36,32 @@
       </div>
     </div>
 
-    <!-- Teclado -->
-    <div class="kb">
-      <button *ngFor="let l of letters" (click)="guess(l)" [disabled]="picked.has(l) || final">
-        {{ l }}
+    <div class="kb" *ngIf="!final">
+      <button *ngFor="let l of letters" (click)="guess(l)" [disabled]="picked.has(l)">
+        <strong> {{ l }}</strong>
       </button>
     </div>
 
-    <div *ngIf="final" class="result">
-      {{ ganar ? '¡Ganaste!' : 'Perdiste' }} — La palabra era: <b>{{ word }}</b>
-      <button class="btn" (click)="reset()">Reiniciar</button>
+    <!-- Palabra acertada (sumaste +1) -->
+    <div class="result result--ok" *ngIf="final && ganar">
+      <h3>¡Palabra acertada!</h3>
+      <p>Sumaste <b>+1</b> punto.</p>
+      <div class="actions">
+        <button class="btn btn-pri" (click)="siguientePalabra()">Siguiente palabra</button>
+        <button class="btn btn-ghost" (click)="reset()">Reiniciar</button>
+      </div>
+    </div>
+
+    <!-- Game Over (rojo) -->
+    <div class="overlay" *ngIf="gameOver">
+      <div class="dialog">
+        <h3>Game Over</h3>
+        <p>Tu puntaje: {{ score }}</p>
+        <div class="row">
+          <button class="btn-over" routerLink="/home">Volver al Home</button>
+          <button class="btn-over btn--primary-over" (click)="reset()">Reiniciar</button>
+        </div>
+      </div>
     </div>
   </article>
 </section>

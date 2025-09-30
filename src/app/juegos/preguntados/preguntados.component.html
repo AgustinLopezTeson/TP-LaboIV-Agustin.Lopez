@@ -1,0 +1,52 @@
+<section class="preg-page">
+  <article class="card preg-card">
+    <h2>Preguntados</h2>
+
+    <div class="stats">
+      <span
+        >Puntaje: <b>{{ score }}</b></span
+      >
+      <span
+        >Vidas: <b>{{ lives }}</b
+        >/{{ maxLives }}</span
+      >
+    </div>
+
+    <div class="img-wrap" *ngIf="round as r">
+      <img [src]="r.imageUrl" alt="Personaje" (load)="onImgLoad()" (error)="onImgError()" />
+      <div class="img-overlay" *ngIf="imgLoading">
+        <div class="spinner"></div>
+      </div>
+    </div>
+
+    <div class="opts" *ngIf="round as r">
+      <button
+        class="opt"
+        *ngFor="let o of r.options"
+        (click)="choose(o)"
+        [disabled]="locked || imgLoading || loadingApi"
+        [class.ok]="picked === o && correct"
+        [class.bad]="picked === o && !correct"
+      >
+        {{ o }}
+      </button>
+    </div>
+
+    <p class="err" *ngIf="errorMsg">{{ errorMsg }}</p>
+
+    <div class="overlay" *ngIf="loadingApi">
+      <div class="spinner"></div>
+    </div>
+
+    <div class="overlay-over" *ngIf="gameOver">
+      <div class="dialog">
+        <h3>Game Over</h3>
+        <p>Tu puntaje: {{ score }}</p>
+        <div class="row">
+          <button class="btn-over" routerLink="/home">Volver al Home</button>
+          <button class="btn-over btn--primary-over" (click)="reset()">Reiniciar</button>
+        </div>
+      </div>
+    </div>
+  </article>
+</section>

@@ -9,7 +9,8 @@ import {
 } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
 import { Subscription } from 'rxjs';
-import { ChatService } from './chat.service';
+import { ChatService, ChatMsg } from './chat.service';
+import { AuthService } from '../core/auth.service';
 
 @Component({
   standalone: true,
@@ -24,7 +25,7 @@ export class ChatComponent implements OnInit, AfterViewInit {
 
   private sub?: Subscription;
 
-  constructor(public svc: ChatService) {}
+  constructor(public svc: ChatService, public auth: AuthService) {}
 
   ngOnInit() {
     this.svc.init();
@@ -52,6 +53,18 @@ export class ChatComponent implements OnInit, AfterViewInit {
       if (!el) return;
       el.scrollTop = el.scrollHeight;
     });
+  }
+
+  msjPropio(m: ChatMsg, myId: string | null | undefined) {
+    return !!myId && m.user_id === myId;
+  }
+
+  colorFor(uid: string | null | undefined) {
+    if (!uid) return '#2a2a2a';
+    let h = 0;
+    for (let i = 0; i < uid.length; i++) h = (h * 31 + uid.charCodeAt(i)) >>> 0;
+    const hue = h % 360;
+    return `hsl(${hue} 70% 32%)`;
   }
 
   //trackById = (_: number, m: { id: string }) => m.id;

@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
-
-type Card = { v: number; label: string };
+import { BarajaService, SpanishCard } from './baraja.service';
 
 @Component({
   selector: 'app-mayor-menor',
@@ -9,48 +8,74 @@ type Card = { v: number; label: string };
   styleUrls: ['./mayor-menor.component.scss'],
 })
 export class MayorMenorComponent {
-  deck: Card[] = [];
-  current: Card | null = null;
-  score = 0;
-  ended = false;
+  deck: SpanishCard[] = [];
+  current: SpanishCard | null = null;
 
-  constructor() {
+  score = 0;
+
+  errores = 0;
+  erroresMax = 3;
+
+  ended = false;
+  empatesNoCuentan = true;
+
+  constructor(private baraja: BarajaService) {
     this.reset();
   }
 
   reset() {
-    const base = Array.from({ length: 10 }, (_, i) => i + 1);
-    const oneSuit = base.map((v) => ({ v, label: String(v) }));
-
-    this.deck = [...oneSuit, ...oneSuit, ...oneSuit, ...oneSuit];
-
-    this.shuffle(this.deck);
+    this.deck = this.baraja.buildDeck();
+    this.baraja.shuffle(this.deck);
     this.current = this.deck.pop() ?? null;
     this.score = 0;
+    this.errores = 0;
     this.ended = false;
+    this.logProxima();
+  }
+
+  private proxima(): SpanishCard | null {
+    return this.deck.length ? this.deck[this.deck.length - 1] : null;
+  }
+  private logProxima() {
+    const p = this.proxima();
+    console.log(`[PROXIMA]`, p?.etiqueta);
   }
 
   play(choice: 'mayor' | 'menor') {
     if (this.ended || !this.current) return;
-    const next = this.deck.pop();
+
+    const next = this.deck.pop() ?? null;
     if (!next) {
       this.ended = true;
       return;
     }
-    const ok = choice === 'mayor' ? next.v > this.current.v : next.v < this.current.v;
+
+    const cmp = next.valor - this.current.valor;
+
+    if (cmp === 0 && this.empatesNoCuentan) {
+      this.current = next;
+      this.logProxima();
+      return;
+    }
+
+    const ok = choice === 'mayor' ? cmp > 0 : cmp < 0;
     if (ok) {
       this.score++;
-      this.current = next;
     } else {
-      this.current = next;
+      this.errores++;
+    }
+
+    this.current = next;
+
+    if (this.errores >= this.erroresMax) {
       this.ended = true;
+    }
+    if (!this.ended) {
+      this.logProxima();
     }
   }
 
-  private shuffle<T>(a: T[]): void {
-    for (let i = a.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [a[i], a[j]] = [a[j], a[i]];
-    }
+  get gameOver() {
+    return (this.ended = true);
   }
 }

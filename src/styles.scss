@@ -22,8 +22,6 @@ body {
 
 .btn:active{ transform: translateY(1px);}
 
-
-/* Overlay de carga (reutilizable) */
 .overlay {
   position: fixed;
   inset: 0;
@@ -32,7 +30,6 @@ body {
   place-items: center;
   z-index: 9999; 
 }
-/* Spinner básico */
 .spinner {
   width: 56px;
   height: 56px;
@@ -43,15 +40,13 @@ body {
 }
 @keyframes spin { to { transform: rotate(360deg); } }
 
-/* === Fondo gamer global (oscuro, violeta/azul) === */
 :root{
   --bg-img: url('assets/bg-gamer.png');
-  --bg-tint: rgba(18,16,31,0.72); /* velo oscuro */
+  --bg-tint: rgba(18,16,31,0.72); 
   --bg-grad-1: radial-gradient(900px 600px at 80% -10%, rgba(108,99,255,0.28), transparent 60%);
   --bg-grad-2: radial-gradient(900px 600px at 8% 110%, rgba(0,168,255,0.18), transparent 60%);
 }
 
-/* Capa imagen detrás de todo */
 body::before{
   content:"";
   position: fixed; inset: 0; z-index: -2;
@@ -62,7 +57,6 @@ body::before{
   filter: saturate(.9) brightness(.62);
 }
 
-/* En desktop podés fijar el fondo (parallax suave) */
 @media (min-width: 900px){
   body::before{ background-attachment: fixed; }
 }

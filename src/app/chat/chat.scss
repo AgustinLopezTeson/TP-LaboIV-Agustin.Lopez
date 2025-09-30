@@ -1,9 +1,49 @@
-    .chat-box{ background:#1e1e1e; border:1px solid #2f2f2f; border-radius:12px; overflow:hidden }
-    .chat-head{ padding:10px 12px; border-bottom:1px solid #2f2f2f; color:#fff }
-    .chat-body{ overflow:auto; padding:10px; display:grid; gap:10px; background:#181818; color:#fff;scroll-behavior: smooth;}
-    .msg{ background:#121212; border:1px solid #2a2a2a; border-radius:8px; padding:8px }
-    .meta{ opacity:.85; font-size:.9rem; display:flex; gap:6px }
-    .text{ white-space:pre-wrap; word-break:break-word; margin-top:2px }
-    .chat-input{ display:flex; gap:8px; padding:10px; border-top:1px solid #2f2f2f; background:#1e1e1e }
-    .chat-input input{ flex:1; padding:10px; border-radius:8px; border:1px solid #555; background:#111; color:#fff }
-    .btn{ padding:10px 12px; border-radius:8px; background:#6c63ff; border:1px solid #6c63ff; color:#fff; cursor:pointer }
+/* Tus estilos existentes (los dejamos) */
+.chat-box{ background:#1e1e1e; border:1px solid #2f2f2f; border-radius:12px; overflow:hidden }
+.chat-head{ padding:10px 12px; border-bottom:1px solid #2f2f2f; color:#fff }
+
+/* CAMBIO: la lista ahora es una columna flex (para poder alinear izq/der por fila) */
+.chat-body{
+  overflow:auto;
+  padding:10px;
+  display:flex;              /* CAMBIO */
+  flex-direction:column;     /* CAMBIO */
+  gap:10px;                  /* CAMBIO */
+  background:#181818;
+  color:#fff;
+  scroll-behavior:smooth;
+}
+
+/* CAMBIO: cada mensaje es una fila flex, que se pega a izquierda/derecha según sea mío */
+.row{ display:flex; }                 /* CAMBIO */
+.row.me{ justify-content:flex-end; }  /* CAMBIO */
+.row:not(.me){ justify-content:flex-start; } /* CAMBIO */
+
+/* CAMBIO: la burbuja del mensaje */
+.bubble{
+  max-width:min(72ch, 78%);
+  color:#fff;
+  padding:8px 10px;
+  border-radius:14px;
+  position:relative;
+  box-shadow:0 2px 8px rgba(0,0,0,.25);
+  background:#121212;              /* se sobreescribe con [style.background] del HTML */
+  border:1px solid #2a2a2a;
+  border-bottom-left-radius:4px;   /* “cola” por defecto a la izquierda */
+}
+
+/* CAMBIO: mi burbuja (a la derecha) ajusta bordes */
+.row.me .bubble{
+  border-bottom-left-radius:14px;
+  border-bottom-right-radius:4px;
+}
+
+
+/* Subestilos internos (pueden reemplazar a .meta y .text) */
+.author{ font-size:11px; opacity:.85; margin-bottom:2px; }   /* CAMBIO */
+.text{ white-space:pre-wrap; word-break:break-word; }         /* CAMBIO */
+.time{ font-size:12px; opacity:.8; margin-top:4px; text-align:right; } /* CAMBIO */
+
+.chat-input{ display:flex; gap:8px; padding:10px; border-top:1px solid #2f2f2f; background:#1e1e1e }
+.chat-input input{ flex:1; padding:10px; border-radius:8px; border:1px solid #555; background:#111; color:#fff }
+.btn{ padding:10px 12px; border-radius:8px; background:#6c63ff; border:1px solid #6c63ff; color:#fff; cursor:pointer }

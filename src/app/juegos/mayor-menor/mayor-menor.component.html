@@ -1,26 +1,36 @@
-<section class="page mayor-menor">
-  <article class="card">
+<section class="mm-page">
+  <article class="mm-card">
     <h2>Mayor o Menor</h2>
-
-    <div class="board">
-      <div class="cardbox">
-        <div class="cardface">{{ current?.label ?? '—' }}</div>
-      </div>
-
-      <div class="controls" *ngIf="!ended; else fin">
-        <button class="btn-mayor btn" (click)="play('mayor')">Mayor</button>
-        <button class="btn-menor btn" (click)="play('menor')">Menor</button>
-      </div>
-
-      <ng-template #fin>
-        <div class="result">
-          Fin del juego — Puntaje: <b>{{ score }}</b>
-          <button class="btn" (click)="reset()">Reiniciar</button>
+    <div class="mm-stats">
+      <span
+        >Puntaje: <b>{{ score }}</b></span
+      >
+      <span
+        >Vidas: <b>{{ erroresMax - errores }}/{{ erroresMax }}</b></span
+      >
+    </div>
+    @if (current) {
+    <div class="mm-carta">
+      <img [src]="current.img" [alt]="current.etiqueta" />
+    </div>
+    } @if (!ended) {
+    <div class="mm-actions">
+      <button class="btn btn-sec" (click)="play('menor')">Menor</button>
+      <button class="btn btn-pri" (click)="play('mayor')">Mayor</button>
+      <button class="btn btn-ghost" (click)="reset()">Reiniciar</button>
+    </div>
+    } @else {
+    <div class="overlay" *ngIf="gameOver">
+      <div class="dialog">
+        <h3>Game Over</h3>
+        <p>Tu puntaje: {{ score }}</p>
+        <div class="row">
+          <button class="btn-over" routerLink="/home">Volver al Home</button>
+          <button class="btn-over btn--primary-over" (click)="reset()">Reiniciar</button>
         </div>
-      </ng-template>
+      </div>
     </div>
 
-    <p>Racha: {{ score }}</p>
-    <p>Cartas restantes: {{ deck.length }}</p>
+    }
   </article>
 </section>

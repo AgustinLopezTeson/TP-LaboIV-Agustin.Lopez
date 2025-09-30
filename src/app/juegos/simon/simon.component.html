@@ -1,0 +1,73 @@
+<section class="simon-page">
+  <article class="card simon-card">
+    <h2>Simón Dice</h2>
+
+    <div class="stats">
+      <span
+        >Puntaje: <b>{{ score }}</b></span
+      >
+      <span
+        >Vidas: <b>{{ lives }}</b
+        >/{{ maxLives }}</span
+      >
+      <span>Ronda: {{ seq.length }}</span>
+    </div>
+
+    <div class="board">
+      <button
+        class="pad pad--0"
+        [class.active]="activePad === 0"
+        [class.wrong]="wrongPad === 0"
+        [disabled]="locked"
+        (click)="press(0)"
+        aria-label="Verde"
+      ></button>
+
+      <button
+        class="pad pad--1"
+        [class.active]="activePad === 1"
+        [class.wrong]="wrongPad === 1"
+        [disabled]="locked"
+        (click)="press(1)"
+        aria-label="Rojo"
+      ></button>
+
+      <button
+        class="pad pad--2"
+        [class.active]="activePad === 2"
+        [class.wrong]="wrongPad === 2"
+        [disabled]="locked"
+        (click)="press(2)"
+        aria-label="Amarillo"
+      ></button>
+
+      <button
+        class="pad pad--3"
+        [class.active]="activePad === 3"
+        [class.wrong]="wrongPad === 3"
+        [disabled]="locked"
+        (click)="press(3)"
+        aria-label="Azul"
+      ></button>
+    </div>
+
+    <div class="actions">
+      <button class="btn btn-ghost" (click)="reset()">Reiniciar</button>
+      <a class="btn" routerLink="/home">Volver al Home</a>
+    </div>
+
+    <!-- Overlay Game Over -->
+    <div class="overlay" *ngIf="gameOver">
+      <div class="panel">
+        <h3>Game Over</h3>
+        <p>
+          Puntaje final: <b>{{ score }}</b>
+        </p>
+        <div class="row">
+          <button class="btn btn-pri" (click)="reset()">Reintentar</button>
+          <a class="btn btn-ghost" routerLink="/home">Volver al Home</a>
+        </div>
+      </div>
+    </div>
+  </article>
+</section>
