@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { PreguntadosService, Round } from './preguntados.service';
+import { ResultadosService } from '../../core/resultado.service';
 
 @Component({
   selector: 'app-preguntados',
@@ -24,7 +25,7 @@ export class PreguntadosComponent {
 
   deckLeft = 0;
 
-  constructor(private svc: PreguntadosService) {
+  constructor(private svc: PreguntadosService, private resultados: ResultadosService) {
     this.reset();
   }
 
@@ -116,11 +117,11 @@ export class PreguntadosComponent {
     }
   }
 
-  choose(opt: string) {
+  choose(elegido: string) {
     if (!this.round || this.locked) return;
     this.locked = true;
-    this.picked = opt;
-    this.correct = opt === this.round.correctName;
+    this.picked = elegido;
+    this.correct = elegido === this.round.correctName;
 
     if (this.correct) {
       this.score += 1;
@@ -129,11 +130,17 @@ export class PreguntadosComponent {
     }
 
     setTimeout(() => {
-      if (this.lives <= 0) return;
+      if (this.lives <= 0) {
+        this.finDePartida();
+        return;
+      }
       this.nextRound();
     }, 800);
   }
 
+  private async finDePartida() {
+    await this.resultados.guardar('Preguntados', this.score, { lives: this.lives });
+  }
   get gameOver() {
     return this.lives <= 0;
   }

@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { ResultadosService } from '../../core/resultado.service';
 
 @Component({
   selector: 'app-simon-dice',
@@ -8,6 +9,8 @@ import { Component } from '@angular/core';
 })
 export class SimonComponent {
   //Config
+
+  constructor(private resultados: ResultadosService) {}
   readonly maxLives = 3;
   readonly activeMs = 550; // tiempo encendido
   readonly pauseMs = 180; // pausa
@@ -81,8 +84,10 @@ export class SimonComponent {
 
       if (this.lives <= 0) {
         this.gameOver = true;
+        await this.resultados.guardar('Simon', this.score, { ronda: this.seq.length });
         return;
       }
+      this.step = 0;
       setTimeout(() => this.playSequence(), 650);
       return;
     }

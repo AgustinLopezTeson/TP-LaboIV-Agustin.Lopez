@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { PalabrasService } from './palabras.service';
+import { ResultadosService } from '../../core/resultado.service';
 
 @Component({
   selector: 'app-ahorcado',
@@ -10,7 +11,7 @@ import { PalabrasService } from './palabras.service';
 export class AhorcadoComponent {
   // Letras (incluye Ñ)
   letters = 'ABCDEFGHIJKLMNÑOPQRSTUVWXYZ'.split('');
-
+  record = 0; // record personal
   score = 0; // puntaje total
   error = 0; // errores de la ronda
   erroresMaximos = 6; // vidas
@@ -22,7 +23,7 @@ export class AhorcadoComponent {
   word = '';
   picked = new Set<string>();
 
-  constructor(private palabras: PalabrasService) {
+  constructor(private palabras: PalabrasService, private resultados: ResultadosService) {
     this.reset();
   }
 
@@ -107,6 +108,12 @@ export class AhorcadoComponent {
         this.final = true; // Game Over
       }
     }
+    this.finDePartida();
+  }
+
+  private async finDePartida() {
+    await this.resultados.guardar('Ahorcado', this.score, { word: this.word, error: this.error });
+    if (this.score > this.record) this.record = this.score;
   }
 
   get gameOver() {

@@ -3,22 +3,16 @@
     <h3>💬 Sala de Chat</h3>
   </header>
 
-  <!-- CAMBIO: obtengo el usuario actual para saber qué mensajes son míos -->
   @if (auth.user$ | async; as u) {
 
   <section class="chat-body" [style.height.px]="height" #list>
-    <!-- CAMBIO: cambio .msg por una fila .row que se alinea izq/der según sea mío -->
     @for (m of svc.msgs$ | async; track m.id) {
     <div class="row" [class.me]="msjPropio(m, u?.id)">
-      <!-- CAMBIO: [class.me] -->
-      <!-- CAMBIO: burbuja con color por usuario -->
       <div
         class="bubble"
         [style.background]="msjPropio(m, u?.id) ? '#16a34a' : colorFor(m.user_id)"
         [title]="m.created_at | date : 'short'"
       >
-        <!-- CAMBIO: muestro autor solo si NO es mío -->
-
         <div class="author">{{ m.display_name || m.email || 'Usuario' }}</div>
         <div class="text">{{ m.text }}</div>
         <div class="time">

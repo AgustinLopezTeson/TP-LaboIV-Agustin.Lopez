@@ -1,35 +1,212 @@
-
-.page{
-  min-height:calc(100dvh - 56px);
-  display:grid;
-  grid-template-rows:auto 1fr;
-  justify-items:center;
-  align-content:start;
-  gap:16px;
-  padding:16px;
+.page {
+  min-height: calc(100dvh - 56px);
+  display: grid;
+  grid-template-rows: auto 1fr;
+  justify-items: stretch;
+  align-content: start;
+  gap: 16px;
+  padding: 16px;
 }
 
-.home-card{
-  background:#222;
-  border:1px solid #333;
-  border-radius:12px;
-  color:#fff;
-  padding:16px;
-  box-shadow:0 8px 28px rgba(0,0,0,.25);
-
+.page > h1 {
+  text-align: center;
 }
 
-.card{
-  background:#222;
-  border:1px solid #333;
-  border-radius:12px;
-  color:#fff;
-  padding:16px;
-  box-shadow:0 8px 28px rgba(0,0,0,.25);
-  max-height: fit-content;
+.home-layout {
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  gap: 16px;
+  align-items: start;
 }
 
-    
+.ahorcado{
+  width: 30px;
+  height: 30px;
+  margin-bottom: 2px;
+}
+
+.card,
+.home-card {
+  background: #222;
+  border: 1px solid #333;
+  border-radius: 12px;
+  color: #fff;
+  padding: 16px;
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.25);
+}
+
+.side-card {
+  position: sticky;
+  top: 64px;
+  max-height: calc(100dvh - 96px);
+  overflow: auto;
+}
+
+.card__head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding-bottom: 12px;
+  margin-bottom: 12px;
+  border-bottom: 1px solid #333;
+}
+
+.avatar-sm {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid #555;
+}
+
+.muted {
+  margin: 2px 0 0;
+  opacity: 0.85;
+}
+
+.lead {
+  margin: 4px 0 14px;
+}
+
+.game-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+@media (max-width: 760px) {
+  .game-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.game-tile {
+  position: relative;
+  display: grid;
+  align-content: end;
+  gap: 10px;
+  min-height: 140px;
+  padding: 16px 18px;
+  border-radius: 14px;
+  color: #fff;
+  text-decoration: none;
+  overflow: hidden;
+  border: 1px solid #2c2c2c;
+  background: #171717;
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease,
+    border-color 0.15s ease;
+}
+
+.game-tile::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  opacity: 0.95;
+  background: var(--grad, linear-gradient(135deg, #1f2937, #0b1020));
+  transition:
+    transform 0.3s ease,
+    opacity 0.3s ease,
+    filter 0.3s ease;
+}
+
+.game-tile:hover {
+  transform: translateY(-2px);
+  border-color: var(--accent, #6c63ff);
+  box-shadow:
+    0 8px 24px rgba(0, 0, 0, 0.35),
+    0 0 0 1px rgba(255, 255, 255, 0.04) inset;
+}
+
+.game-tile:hover::before {
+  transform: scale(1.03);
+  filter: saturate(1.1);
+}
+
+.game-tile__icon {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  z-index: 1;
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  border-radius: 12px;
+  font-size: 22px;
+  font-weight: 700;
+  background: rgba(0, 0, 0, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  backdrop-filter: blur(4px);
+}
+
+.game-tile__text {
+  position: relative;
+  z-index: 1;
+}
+
+.game-tile__text h4 {
+  font-weight: 700;
+  letter-spacing: 0.2px;
+}
+
+.game-tile__text small {
+  opacity: 0.95;
+}
+
+.simon-icon {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  gap: 4px;
+  font-size: 0;
+}
+
+.simon-icon span {
+  width: 14px;
+  height: 14px;
+  display: block;
+  border-radius: 3px;
+}
+
+.simon-icon span:nth-child(1) {
+  background: #22c55e;
+}
+
+.simon-icon span:nth-child(2) {
+  background: #ef4444;
+}
+
+.simon-icon span:nth-child(3) {
+  background: #eab308;
+}
+
+.simon-icon span:nth-child(4) {
+  background: #3b82f6;
+}
+
+.gt--ahorcado {
+  --grad: linear-gradient(135deg, #4c1d95, #0f172a);
+  --accent: #a78bfa;
+}
+
+.gt--mayor {
+  --grad: linear-gradient(135deg, #064e3b, #0f172a);
+  --accent: #34d399;
+}
+
+.gt--preguntados {
+  --grad: linear-gradient(135deg, #0c4a6e, #0f172a);
+  --accent: #60a5fa;
+}
+
+.gt--simon {
+  --grad: linear-gradient(135deg, #7c2d12, #0f172a);
+  --accent: #f59e0b;
+}
+
 .btn {
   background: #444;
   border: 0;
@@ -37,46 +214,74 @@
   padding: 6px 10px;
   border-radius: 6px;
   text-decoration: none;
-  cursor: pointer;       
+  cursor: pointer;
 }
 
-.btn-entrar{ background:#16a34a; }
-
-.centrar{ text-align:center; }
-
-.card__head{
-  display:flex;
-  align-items:center;
-  gap:12px;
-  padding-bottom:12px;
-  margin-bottom:12px;
-  border-bottom:1px solid #333;
+.btn-entrar {
+  background: #16a34a;
 }
 
-.avatar-sm{
-  width:56px;height:56px;border-radius:50%;
-  object-fit:cover;border:1px solid #555;
+.centrar {
+  text-align: center;
 }
-.muted{opacity:.85;margin:2px 0 0;}
-.lead{margin:4px 0 14px;}
 
-.game-grid{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:12px;
+.table-wrap {
+  max-height: 60vh;
+  overflow: auto;
+  border: 1px solid #333;
+  border-radius: 10px;
 }
-@media (max-width:760px){ .game-grid{ grid-template-columns:1fr; } }
 
-.game-tile{
-  display:grid; align-content:center; gap:6px;
-  min-height:110px; padding:16px 18px;
-  border-radius:12px; text-decoration:none; color:#fff;
-  background:#1f1f1f; border:1px solid #2c2c2c;
-  box-shadow:0 2px 10px rgba(0,0,0,.15);
-  transition:transform .12s ease, background .12s ease, border-color .12s ease;
+.results-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  font-size: 0.95rem;
 }
-.game-tile:hover{ transform:translateY(-1px); background:#262626; border-color:#b31515;  }
-.game-tile h4{ margin:0 0 4px 0; }
 
-.card__foot{ margin-top:12px; padding-top:12px; border-top:1px solid #333; }
-.link{ color:#8ab4ff; text-decoration:underline; }
+.results-table thead th {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  padding: 10px 12px;
+  text-align: left;
+  color: #cfcfcf;
+  background: #1e1e1e;
+  border-bottom: 1px solid #333;
+}
+
+.results-table tbody td {
+  padding: 10px 12px;
+  border-bottom: 1px solid #2b2b2b;
+}
+
+.results-table tbody tr:nth-child(odd) {
+  background: #1a1a1a;
+}
+
+.results-table tbody tr:nth-child(even) {
+  background: #171717;
+}
+
+.results-table tbody tr:hover {
+  background: #222;
+}
+
+.results-table td.score {
+  font-weight: 600;
+}
+
+.results-table td.date {
+  opacity: 0.9;
+  white-space: nowrap;
+}
+
+@media (max-width: 960px) {
+  .table-wrap {
+    max-height: none;
+  }
+
+  .results-table thead th {
+    position: static;
+  }
+}

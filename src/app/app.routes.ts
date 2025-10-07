@@ -19,7 +19,10 @@ export const routes: Routes = [
     path: 'chat',
     loadComponent: () => import('./chat/chat').then((m) => m.ChatComponent),
   },
-
+  {
+    path: 'encuesta',
+    loadComponent: () => import('./pages/encuesta/encuesta').then((m) => m.EncuestaComponent),
+  },
   // juegos (módulo lazy con loadChildren)
   {
     path: 'juegos',
@@ -28,7 +31,7 @@ export const routes: Routes = [
         const auth = inject(AuthService);
         const router = inject(Router);
         if (auth.current) return true; // deja pasar
-        router.navigateByUrl('/login'); // redirige al login
+        router.navigateByUrl('/login', { replaceUrl: true }); // redirige al login
         auth.signOut();
         return false;
       },

@@ -17,10 +17,10 @@ export class ChatService {
   msgs$ = this._msgs$.asObservable();
 
   private _subscribed = false;
-  private _channel: ReturnType<typeof supabase.channel> | null = null;
+  private _canal: ReturnType<typeof supabase.channel> | null = null;
 
-  private _retries = 0;
-  private _reconnectTimer: any = null;
+  private _intentos = 0;
+  private _timerReconexion: any = null;
 
   private _initOnce = false;
   private _gen = 0;
@@ -67,20 +67,12 @@ export class ChatService {
   }
 
   private async suscribirRealtime() {
-    // "cerramos" la generación anterior para ignorar sus eventos
     const gen = ++this._gen;
-
-    //Me desuscribo del canal anterior para que no se pisen
-    await this._channel?.unsubscribe();
-    //Sin canal y sin suscripción
-    this._channel = null;
+    await this._canal?.unsubscribe();
+    this._canal = null;
     console.log('VECES QUE SE CORTO (' + gen + ')');
     this._subscribed = false;
 
-    //Pido un token nuevo, por si el otro falla solo para el chat
-    // await this.setRealtimeToken();
-
-    //Creo un nuevo canal
     const ch = supabase
       .channel('realtime:public:chat_messages')
       .on(
@@ -95,7 +87,7 @@ export class ChatService {
 
         if (status === 'SUBSCRIBED') {
           this._subscribed = true;
-          this._retries = 0;
+          this._intentos = 0;
 
           // En el caso de que se caiga el realtime, cuando vuelva traigo los mensajes que me perdí
           if (this._lastCreatedAt) {
@@ -113,12 +105,12 @@ export class ChatService {
         }
       });
 
-    this._channel = ch;
+    this._canal = ch;
   }
 
   private programarReconexion(delayMs?: number) {
     if (this._subscribed) return;
-    if (this._reconnectTimer) return;
+    if (this._timerReconexion) return;
 
     if (!navigator.onLine) {
       const onBack = () => {
@@ -130,10 +122,10 @@ export class ChatService {
     }
     // Si la pestaña está oculta, espero a que vuelva a primer plano
 
-    const delay = delayMs ?? Math.min(1000 * Math.pow(2, this._retries++), 10000);
+    const delay = delayMs ?? Math.min(1000 * Math.pow(2, this._intentos++), 10000);
 
-    this._reconnectTimer = setTimeout(async () => {
-      this._reconnectTimer = null;
+    this._timerReconexion = setTimeout(async () => {
+      this._timerReconexion = null;
       await this.suscribirRealtime();
     }, delay);
   }

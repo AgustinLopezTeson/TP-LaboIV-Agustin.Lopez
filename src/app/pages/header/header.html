@@ -5,6 +5,7 @@
     <a routerLink="/quien-soy">Quién Soy</a>
 
     @if (auth.user$ | async; as u) {
+    <button class="btn btn-entrar" routerLink="/encuesta">Encuesta</button>
     <button class="btn btn-salir" (click)="auth.signOut()" routerLink="/home">
       Salir ({{ u.display_name || u.email }})
     </button>

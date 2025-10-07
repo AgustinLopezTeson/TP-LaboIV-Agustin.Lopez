@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { BarajaService, SpanishCard } from './baraja.service';
+import { ResultadosService } from '../../core/resultado.service';
 
 @Component({
   selector: 'app-mayor-menor',
@@ -19,7 +20,7 @@ export class MayorMenorComponent {
   ended = false;
   empatesNoCuentan = true;
 
-  constructor(private baraja: BarajaService) {
+  constructor(private baraja: BarajaService, private resultados: ResultadosService) {
     this.reset();
   }
 
@@ -69,12 +70,15 @@ export class MayorMenorComponent {
 
     if (this.errores >= this.erroresMax) {
       this.ended = true;
+      this.finDePartida();
     }
     if (!this.ended) {
       this.logProxima();
     }
   }
-
+  private async finDePartida() {
+    await this.resultados.guardar('Mayor-menor', this.score, { errors: this.errores });
+  }
   get gameOver() {
     return (this.ended = true);
   }

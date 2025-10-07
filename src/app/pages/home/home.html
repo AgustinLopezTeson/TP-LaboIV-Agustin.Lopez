@@ -2,42 +2,91 @@
   <h1>Bienvenido a la Sala de Juegos</h1>
 
   @if (auth.user$ | async; as u) {
-  <article class="card home-card">
-    <header class="card__head">
-      @if (u.avatar_url) { <img [src]="u.avatar_url" alt="avatar" class="avatar-sm" /> }
-      <div>
-        <h3>Hola, {{ u.display_name || u.email }}</h3>
-        @if (u.age) {
-        <p class="muted">Edad: {{ u.age }}</p>
-        }
+  <div class="home-layout right">
+    <article class="card home-card">
+      <header class="card__head">
+        @if (u.avatar_url) { <img [src]="u.avatar_url" alt="avatar" class="avatar-sm" /> }
+        <div>
+          <h3>Hola, {{ u.display_name || u.email }}</h3>
+          @if (u.age) {
+          <p class="muted">Edad: {{ u.age }}</p>
+          }
+        </div>
+      </header>
+
+      <p class="lead">Elegí un juego para empezar:</p>
+
+      <div class="game-grid">
+        <a class="game-tile gt--ahorcado" routerLink="/juegos/ahorcado">
+          <div class="game-tile__icon" aria-hidden="true">
+            <img class="ahorcado" src="../../../assets/ahorcado.png" alt="" />
+          </div>
+          <div class="game-tile__text">
+            <h4>Ahorcado</h4>
+            <small>Descubrí la palabra tocando letras</small>
+          </div>
+        </a>
+
+        <a class="game-tile gt--mayor" routerLink="/juegos/mayor-menor">
+          <div class="game-tile__icon" aria-hidden="true">🂡</div>
+          <div class="game-tile__text">
+            <h4>Mayor o Menor</h4>
+            <small>¿La próxima carta será mayor o menor?</small>
+          </div>
+        </a>
+
+        <a class="game-tile gt--preguntados" routerLink="/juegos/preguntados">
+          <div class="game-tile__icon" aria-hidden="true">❓</div>
+          <div class="game-tile__text">
+            <h4>Preguntados</h4>
+            <small>Descubrí los personajes</small>
+          </div>
+        </a>
+
+        <a class="game-tile gt--simon" routerLink="/juegos/simon">
+          <div class="game-tile__icon simon-icon" aria-hidden="true">
+            <span></span><span></span><span></span><span></span>
+          </div>
+          <div class="game-tile__text">
+            <h4>Simon</h4>
+            <small>Repetir la secuencia de colores</small>
+          </div>
+        </a>
       </div>
-    </header>
 
-    <p class="lead">Elegí un juego para empezar:</p>
+      <app-chat [height]="300"></app-chat>
+    </article>
 
-    <div class="game-grid">
-      <a class="game-tile" routerLink="/juegos/ahorcado">
-        <h4>Ahorcado</h4>
-        <small>Descubrí la palabra sin ahorcar al inocente</small>
-      </a>
-
-      <a class="game-tile" routerLink="/juegos/mayor-menor">
-        <h4>Mayor o Menor</h4>
-        <small>¿La próxima carta será mayor o menor?</small>
-      </a>
-
-      <a class="game-tile" routerLink="/juegos/preguntados">
-        <h4>Preguntados</h4>
-        <small>Descubri los personajes</small>
-      </a>
-
-      <a class="game-tile" routerLink="/juegos/simon">
-        <h4>Simon</h4>
-        <small>Repetir la secuencia de colores</small>
-      </a>
-    </div>
-    <app-chat [height]="300"></app-chat>
-  </article>
+    <aside class="card side-card">
+      <h3>Tus últimos resultados</h3>
+      @if (loadingUlt) {
+      <div class="spinner"></div>
+      } @else if (ultimos.length === 0) {
+      <p class="muted">Todavía no jugaste.</p>
+      } @else {
+      <div class="table-wrap">
+        <table class="results-table">
+          <thead>
+            <tr>
+              <th>Juego</th>
+              <th>Puntaje</th>
+              <th>Fecha</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (r of ultimos; track r.id) {
+            <tr>
+              <td class="game">{{ r.game }}</td>
+              <td class="score">{{ r.score }}</td>
+              <td class="date">{{ r.created_at | date : 'dd-MM-yy' }}</td>
+            </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+      }
+    </aside>
+  </div>
   } @else {
   <div class="card">
     <h3>No estás logueado</h3>

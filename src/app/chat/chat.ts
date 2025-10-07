@@ -35,6 +35,10 @@ export class ChatComponent implements OnInit, AfterViewInit {
     this.sub = this.svc.msgs$.subscribe(() => this.scrollToBottom());
   }
 
+  ngOnDestroy() {
+    this.sub?.unsubscribe();
+  }
+
   async envio(inp: HTMLInputElement) {
     const v = inp.value.trim();
     if (!v) return;
@@ -66,6 +70,4 @@ export class ChatComponent implements OnInit, AfterViewInit {
     const hue = h % 360;
     return `hsl(${hue} 70% 32%)`;
   }
-
-  //trackById = (_: number, m: { id: string }) => m.id;
 }
