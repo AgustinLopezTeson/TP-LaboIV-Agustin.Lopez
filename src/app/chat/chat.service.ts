@@ -60,12 +60,12 @@ export class ChatService {
 
     await this.suscribirRealtime();
   }
-
+  /* No es necesario porque supabase-js ya maneja el token internamente pero lo usaba por que el token se me pisaba
   private async setRealtimeToken() {
     const { data } = await supabase.auth.getSession();
     supabase.realtime.setAuth(data.session?.access_token ?? '');
   }
-
+*/
   private async suscribirRealtime() {
     const gen = ++this._gen;
     await this._canal?.unsubscribe();
